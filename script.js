@@ -23,6 +23,41 @@ nav.querySelectorAll('a').forEach(a => {
   });
 });
 
+// ===== NAV DROPDOWN (NOTÍCIAS) =====
+(function() {
+  const dropdown = document.getElementById('navDropdown');
+  if (!dropdown) return;
+
+  const toggle = dropdown.querySelector('.nav-dropdown-toggle');
+
+  // Toggle no click (principalmente mobile)
+  toggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    dropdown.classList.toggle('open');
+    const isOpen = dropdown.classList.contains('open');
+    toggle.setAttribute('aria-expanded', isOpen);
+  });
+
+  // Fecha dropdown ao clicar em um link interno
+  dropdown.querySelectorAll('.nav-dropdown-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      dropdown.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      // Fecha também o menu mobile se estiver aberto
+      menuToggle.classList.remove('open');
+      nav.classList.remove('open');
+    });
+  });
+
+  // Fecha dropdown ao clicar fora
+  document.addEventListener('click', (e) => {
+    if (!dropdown.contains(e.target)) {
+      dropdown.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+})();
+
 // ===== SCROLL SUAVE COM OFFSET =====
 document.querySelectorAll('a[href^="#"]').forEach(link => {
   link.addEventListener('click', (e) => {
